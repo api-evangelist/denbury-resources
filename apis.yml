@@ -1,0 +1,7 @@
+aid: denbury-resources
+url: https://raw.githubusercontent.com/api-evangelist/denbury-resources/refs/heads/main/apis.yml
+modified: '2026-03-24'
+apis: []
+common:
+  - type: Website
+    url: https://www.denbury-resources.com
