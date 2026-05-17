@@ -17,7 +17,7 @@ tags:
 created: '2024-12-03'
 modified: '2026-04-28'
 specificationVersion: '0.19'
-xType: company
+kind: company
 description: >-
   Denbury Resources (now Denbury Inc.) was an independent oil and natural
   gas company focused on enhanced oil recovery (EOR) using carbon dioxide
