@@ -27,6 +27,8 @@ description: >-
   profile is preserved as a corporate-history index.
 apis: []
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/denbury-resources
   - type: ParentCompany
     url: https://corporate.exxonmobil.com/locations/united-states/denbury
   - type: ExxonMobilLowCarbon
