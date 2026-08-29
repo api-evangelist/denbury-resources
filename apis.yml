@@ -1,6 +1,8 @@
 aid: denbury-resources
 name: Denbury Resources
 url: >-
+x-api-posture: no-product-api
+x-api-posture-basis: observed
   https://raw.githubusercontent.com/api-evangelist/denbury-resources/refs/heads/main/apis.yml
 type: Index
 deliveryModel:
