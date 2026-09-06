@@ -1,0 +1,76 @@
+generated: '2026-09-06'
+method: probed
+source: openapi/ + live responses from https://www.denbury.com/wp-json (2026-09-06)
+description: >-
+  Cross-cutting standards this surface does and does not conform to. Denbury Inc. makes no
+  compliance, certification or standards claim anywhere on its public site — there is no trust
+  center, no SOC 2 / ISO 27001 statement, and no security page — so every row below is an
+  observation of the wire behaviour, not a repeat of a provider claim. No Compliance pointer is
+  emitted, because no compliance program is published.
+conformance:
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 security scheme anywhere on the surface; /.well-known/oauth-authorization-server
+    returns 403 (nginx HTML), not a metadata document.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns HTTP 403 with an nginx HTML body.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are the WordPress {code,message,data} envelope served as application/json. No
+    application/problem+json response was observed on any 400/401/404.
+- id: rfc8288-link-pagination
+  conforms: true
+  evidence: >-
+    GET /wp/v2/pages?per_page=2&page=2 returned `Link: <...page=1>; rel="prev", <...page=3>;
+    rel="next"` on 2026-09-06.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Page-number pagination with page/per_page/offset, plus X-WP-Total and X-WP-TotalPages counters.
+    per_page bounds (1..100) are enforced with a 400.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    Not applicable rather than absent — the public surface is read-only (`Allow: GET`). See
+    conventions/denbury-resources-conventions.yml idempotency.coverage = na.
+- id: oembed-1.0
+  conforms: true
+  evidence: >-
+    GET /oembed/1.0/embed?url=https%3A%2F%2Fwww.denbury.com%2F returned HTTP 200 with a well-formed
+    oEmbed 1.0 document ("version":"1.0","provider_name":"Denbury","provider_url":"https://www.denbury.com").
+- id: json-schema
+  conforms: true
+  evidence: >-
+    Every route publishes a JSON Schema for its resource and its arguments in response to HTTP
+    OPTIONS. The specs in openapi/ are derived from those documents verbatim.
+- id: cors
+  conforms: true
+  evidence: >-
+    `Access-Control-Expose-Headers: X-WP-Total, X-WP-TotalPages, Link` and
+    `Access-Control-Allow-Headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5,
+    Content-Type` returned on wp-json responses.
+- id: scim
+  conforms: false
+  evidence: No SCIM schema URN or /scim surface exists; the users route returns 403.
+- id: odata
+  conforms: false
+  evidence: No $metadata document and no OData query syntax on any route.
+domain_standards:
+  checked: true
+  found: none
+  note: >-
+    REWARD-ONLY check, honestly empty. The oil-and-gas / carbon-management market does have
+    machine-readable domain standards a producer could declare — PPDM, WITSML/PRODML/RESQML (Energistics),
+    OGC API for subsurface and pipeline geodata — and Denbury declares none of them, because the only
+    contract it exposes is a CMS content API. No OGC surface was probed: nothing in the record, the
+    site or the route index names WMS/WFS/WCS/WMTS/CSW or an "OGC API" endpoint, and blind path
+    probing is out of bounds. Recording an absence, not inventing a conformance.
+certifications: []
+compliance_programs: []
+counts:
+  conformance_entries: 11
+  conforms_true: 5
+  conforms_false: 6

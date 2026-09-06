@@ -1,0 +1,183 @@
+openapi: 3.2.0
+info:
+  title: Denbury Resources Search API
+  version: wp/v2
+  description: Public, unauthenticated full-text search over the Denbury Inc. website (105 indexed objects at capture) via
+    the WordPress core REST API.
+  contact:
+    name: Denbury Inc.
+    url: https://www.denbury.com/contact-us/
+    email: info@denbury.com
+  x-derived-from: https://www.denbury.com/wp-json/ route index + per-route HTTP OPTIONS schema documents
+  x-derived-on: '2026-09-06'
+  x-api-evangelist-note: 'Third-party profile. Denbury Inc. publishes no developer program; this documents the anonymously
+    readable WordPress core REST content API served from www.denbury.com. Every path, parameter, schema property and description
+    here was read from the server''s own published HTTP OPTIONS documents on 2026-09-06 — nothing is invented. Anonymous access
+    is read-only (the routes answer `Allow: GET`); the write methods on the same routes require WordPress application-password
+    authentication and are not part of the public surface.'
+servers:
+- url: https://www.denbury.com/wp-json
+  description: Denbury Inc. WordPress REST API
+tags:
+- name: Search
+  description: Full-text search across published Denbury Inc. website content.
+paths:
+  /wp/v2/search:
+    get:
+      operationId: search
+      summary: Search site content
+      description: 'Full-text search across the Denbury Inc. website. 105 searchable objects were indexed at capture (X-WP-Total:
+        105). Returns lightweight result objects (id, title, url, type, subtype) rather than full records.'
+      tags:
+      - Search
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+      - name: page
+        in: query
+        description: Current page of the collection.
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        schema:
+          type: string
+      - name: subtype
+        in: query
+        description: Limit results to items of one or more object subtypes.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - post
+            - page
+            - bio
+            - events
+            - news
+            - presentations
+            - category
+            - post_tag
+            - team_category
+            - any
+          default: any
+      - name: type
+        in: query
+        description: Limit results to items of an object type.
+        schema:
+          type: string
+          enum:
+          - post
+          - term
+          - post-format
+          default: post
+      responses:
+        '200':
+          description: A paginated collection of search results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    SearchResult:
+      title: search-result
+      type: object
+      properties:
+        id:
+          description: Unique identifier for the object.
+          type: integer
+        title:
+          description: The title for the object.
+          type: string
+        url:
+          description: URL to the object.
+          type: string
+          format: uri
+        type:
+          description: Object type.
+          type: string
+          enum:
+          - post
+          - term
+          - post-format
+        subtype:
+          description: Object subtype.
+          type: string
+          enum:
+          - post
+          - page
+          - bio
+          - events
+          - news
+          - presentations
+          - category
+          - post_tag
+          - team_category
+    Error:
+      title: WordPress REST error
+      type: object
+      properties:
+        code:
+          description: Machine-readable error code, e.g. rest_invalid_param, rest_post_invalid_id, rest_no_route, rest_forbidden.
+          type: string
+        message:
+          description: Human-readable error message.
+          type: string
+        data:
+          description: Error detail including the HTTP status and any offending parameters.
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object

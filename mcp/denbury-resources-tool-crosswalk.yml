@@ -1,0 +1,122 @@
+generated: '2026-09-06'
+method: derived
+source: mcp/denbury-resources-mcp.yml + openapi/
+description: >-
+  Binding between the candidate MCP tool set and the OpenAPI operations that back it. Both sides of
+  this crosswalk are API Evangelist artifacts — Denbury Inc. operates no MCP server and publishes no
+  OpenAPI — so there is no provider surface divergence to record. The useful column is the third
+  one: what the live host exposes that neither side covers.
+surfaces:
+  openapi:
+    files: 5
+    operations: 12
+    gated: false
+    note: >-
+      Derived from the server's own HTTP OPTIONS schema documents; anonymously readable and verified
+      live on 2026-09-06.
+  mcp:
+    url: null
+    gated: null
+    note: No server exists. tools/list was never reachable to introspect; the tool set is candidate.
+  graphql:
+    endpoint: null
+    note: No GraphQL surface. POST https://www.denbury.com/graphql returned HTTP 404.
+crosswalk:
+- tool: list_pages
+  category: content
+  rest:
+  - listPages
+  binding: one-to-one
+  confidence: high
+- tool: get_page
+  category: content
+  rest:
+  - getPage
+  binding: one-to-one
+  confidence: high
+- tool: list_media
+  category: assets
+  rest:
+  - listMedia
+  binding: one-to-one
+  confidence: high
+- tool: get_media_item
+  category: assets
+  rest:
+  - getMediaItem
+  binding: one-to-one
+  confidence: high
+- tool: search
+  category: search
+  rest:
+  - search
+  binding: one-to-one
+  confidence: high
+- tool: list_types
+  category: discovery
+  rest:
+  - listTypes
+  binding: one-to-one
+  confidence: high
+- tool: get_type
+  category: discovery
+  rest:
+  - getType
+  binding: one-to-one
+  confidence: high
+- tool: list_taxonomies
+  category: discovery
+  rest:
+  - listTaxonomies
+  binding: one-to-one
+  confidence: high
+- tool: get_taxonomy
+  category: discovery
+  rest:
+  - getTaxonomy
+  binding: one-to-one
+  confidence: high
+- tool: list_categories
+  category: discovery
+  rest:
+  - listCategories
+  binding: one-to-one
+  confidence: high
+- tool: get_category
+  category: discovery
+  rest:
+  - getCategory
+  binding: one-to-one
+  confidence: high
+- tool: get_oembed
+  category: embeds
+  rest:
+  - getOembed
+  binding: one-to-one
+  confidence: high
+mcp_only: []
+rest_only: []
+uncovered_live_surface:
+- area: wp-abilities/v1
+  routes: 5
+  reason: >-
+    The WordPress Abilities API namespace is registered on this host but every route returns HTTP 401
+    rest_forbidden anonymously. It cannot be introspected, documented or bound, so it is recorded as
+    a known gated surface rather than mapped.
+- area: plugin admin namespaces
+  routes: 259
+  reason: >-
+    The 276-route index is dominated by plugin and admin namespaces — redirection/v1, yoast/v1,
+    wp-smush/v1, hummingbird/v1, pods/v1, wpmudev-dashboard/v1, fluent-smtp, duplicate-post/v1,
+    genesis-custom-blocks, wp-site-health/v1, wp-block-editor/v1 — plus the write and revision routes
+    on wp/v2. These are site-administration surfaces, not a public content contract, and are not
+    anonymously useful. They are deliberately not documented.
+coverage:
+  tools_named: 12
+  tools_bound: 12
+  tools_unbound: 0
+  mcp_only: 0
+  rest_ops_total: 12
+  rest_ops_with_tool: 12
+  live_routes_on_host: 276
+  live_routes_documented: 12

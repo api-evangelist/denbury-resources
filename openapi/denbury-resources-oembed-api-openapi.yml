@@ -1,0 +1,133 @@
+openapi: 3.2.0
+info:
+  title: Denbury Resources oEmbed API
+  version: wp/v2
+  description: Public, unauthenticated oEmbed 1.0 endpoint for Denbury Inc. website URLs, served by WordPress core.
+  contact:
+    name: Denbury Inc.
+    url: https://www.denbury.com/contact-us/
+    email: info@denbury.com
+  x-derived-from: https://www.denbury.com/wp-json/ route index + per-route HTTP OPTIONS schema documents
+  x-derived-on: '2026-09-06'
+  x-api-evangelist-note: 'Third-party profile. Denbury Inc. publishes no developer program; this documents the anonymously
+    readable WordPress core REST content API served from www.denbury.com. Every path, parameter, schema property and description
+    here was read from the server''s own published HTTP OPTIONS documents on 2026-09-06 — nothing is invented. Anonymous access
+    is read-only (the routes answer `Allow: GET`); the write methods on the same routes require WordPress application-password
+    authentication and are not part of the public surface.'
+servers:
+- url: https://www.denbury.com/wp-json
+  description: Denbury Inc. WordPress REST API
+tags:
+- name: oEmbed
+  description: oEmbed 1.0 discovery and embed documents for Denbury Inc. URLs.
+paths:
+  /oembed/1.0/embed:
+    get:
+      operationId: getOembed
+      summary: Retrieve an oEmbed document
+      description: Return an oEmbed 1.0 response for a Denbury Inc. URL — provider name, author, title, and the HTML embed
+        fragment. Verified live against https://www.denbury.com/ on 2026-09-06.
+      tags:
+      - oEmbed
+      parameters:
+      - name: format
+        in: query
+        schema:
+          type: string
+          default: json
+      - name: maxwidth
+        in: query
+        schema:
+          type: string
+          default: 600
+      - name: url
+        in: query
+        description: The URL of the resource for which to fetch oEmbed data.
+        required: true
+        schema:
+          type: string
+          format: uri
+      responses:
+        '200':
+          description: The oEmbed document for the requested URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OembedResponse'
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No such resource or no matching route — rest_no_route / rest_*_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    OembedResponse:
+      title: oembed-response
+      type: object
+      description: oEmbed 1.0 rich/link response as returned by WordPress core. Field set observed on the live response for
+        https://www.denbury.com/ on 2026-09-06.
+      properties:
+        version:
+          description: oEmbed spec version.
+          type: string
+        provider_name:
+          description: Name of the site providing the embed.
+          type: string
+        provider_url:
+          description: URL of the site providing the embed.
+          type: string
+          format: uri
+        author_name:
+          description: Name of the content author.
+          type: string
+        author_url:
+          description: URL of the content author.
+          type: string
+          format: uri
+        title:
+          description: Title of the embedded resource.
+          type: string
+        type:
+          description: oEmbed response type.
+          type: string
+        width:
+          description: Embed width in pixels.
+          type: integer
+        height:
+          description: Embed height in pixels.
+          type: integer
+        html:
+          description: HTML fragment that embeds the resource.
+          type: string
+    Error:
+      title: WordPress REST error
+      type: object
+      properties:
+        code:
+          description: Machine-readable error code, e.g. rest_invalid_param, rest_post_invalid_id, rest_no_route, rest_forbidden.
+          type: string
+        message:
+          description: Human-readable error message.
+          type: string
+        data:
+          description: Error detail including the HTTP status and any offending parameters.
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object

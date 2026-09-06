@@ -1,0 +1,561 @@
+openapi: 3.2.0
+info:
+  title: Denbury Resources Discovery API
+  version: wp/v2
+  description: Public, unauthenticated access to the self-describing surface of the Denbury Inc. WordPress REST API — registered
+    content types, taxonomies and category terms.
+  contact:
+    name: Denbury Inc.
+    url: https://www.denbury.com/contact-us/
+    email: info@denbury.com
+  x-derived-from: https://www.denbury.com/wp-json/ route index + per-route HTTP OPTIONS schema documents
+  x-derived-on: '2026-09-06'
+  x-api-evangelist-note: 'Third-party profile. Denbury Inc. publishes no developer program; this documents the anonymously
+    readable WordPress core REST content API served from www.denbury.com. Every path, parameter, schema property and description
+    here was read from the server''s own published HTTP OPTIONS documents on 2026-09-06 — nothing is invented. Anonymous access
+    is read-only (the routes answer `Allow: GET`); the write methods on the same routes require WordPress application-password
+    authentication and are not part of the public surface.'
+servers:
+- url: https://www.denbury.com/wp-json
+  description: Denbury Inc. WordPress REST API
+tags:
+- name: Discovery
+  description: 'Self-describing metadata: registered content types, taxonomies and terms.'
+paths:
+  /wp/v2/types:
+    get:
+      operationId: listTypes
+      summary: List content types
+      description: Retrieve every registered post type on the Denbury Inc. site, each with its REST base, supported features
+        and links.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      responses:
+        '200':
+          description: A map of registered content types keyed by slug.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/types/{type}:
+    get:
+      operationId: getType
+      summary: Retrieve a content type
+      description: Retrieve a single registered post type by slug.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: type
+        in: path
+        description: An alphanumeric identifier for the post type.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested content type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentType'
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No such resource or no matching route — rest_no_route / rest_*_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      summary: List taxonomies
+      description: Retrieve every registered taxonomy on the Denbury Inc. site.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: type
+        in: query
+        description: Limit results to taxonomies associated with a specific post type.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A map of registered taxonomies keyed by slug.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      summary: Retrieve a taxonomy
+      description: Retrieve a single registered taxonomy by slug.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: taxonomy
+        in: path
+        description: An alphanumeric identifier for the taxonomy.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested taxonomy.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Taxonomy'
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No such resource or no matching route — rest_no_route / rest_*_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/categories:
+    get:
+      operationId: listCategories
+      summary: List categories
+      description: Retrieve the category terms defined on the Denbury Inc. site. One term ("Uncategorized", count 0) was defined
+        at capture.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+      - name: hide_empty
+        in: query
+        description: Whether to hide terms not assigned to any posts.
+        schema:
+          type: boolean
+          default: false
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+      - name: order
+        in: query
+        description: Order sort attribute ascending or descending.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      - name: orderby
+        in: query
+        description: Sort collection by term attribute.
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - slug
+          - include_slugs
+          - term_group
+          - description
+          - count
+          default: name
+      - name: page
+        in: query
+        description: Current page of the collection.
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - name: parent
+        in: query
+        description: Limit result set to terms assigned to a specific parent.
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+      - name: post
+        in: query
+        description: Limit result set to terms assigned to a specific post.
+        schema:
+          type: integer
+          default: null
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        schema:
+          type: string
+      - name: slug
+        in: query
+        description: Limit result set to terms with one or more specific slugs.
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A collection of category terms.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/categories/{id}:
+    get:
+      operationId: getCategory
+      summary: Retrieve a category
+      description: Retrieve a single category term by its numeric id.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: id
+        in: path
+        description: Unique identifier for the term.
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: The requested category term.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid parameter(s) — rest_invalid_param.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Anonymous access refused for this scope — rest_forbidden. The `edit` context requires WordPress application-password
+            authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No such resource or no matching route — rest_no_route / rest_*_invalid_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ContentType:
+      title: type
+      type: object
+      properties:
+        capabilities:
+          description: All capabilities used by the post type.
+          type: object
+        description:
+          description: A human-readable description of the post type.
+          type: string
+        hierarchical:
+          description: Whether or not the post type should have children.
+          type: boolean
+        viewable:
+          description: Whether or not the post type can be viewed.
+          type: boolean
+        labels:
+          description: Human-readable labels for the post type for various contexts.
+          type: object
+        name:
+          description: The title for the post type.
+          type: string
+        slug:
+          description: An alphanumeric identifier for the post type.
+          type: string
+        supports:
+          description: All features, supported by the post type.
+          type: object
+        has_archive:
+          description: If the value is a string, the value will be used as the archive slug. If the value is false the post
+            type has no archive.
+          type: string
+        taxonomies:
+          description: Taxonomies associated with post type.
+          type: array
+          items:
+            type: string
+        rest_base:
+          description: REST base route for the post type.
+          type: string
+        rest_namespace:
+          description: REST route's namespace for the post type.
+          type: string
+        visibility:
+          description: The visibility settings for the post type.
+          type: object
+          properties:
+            show_ui:
+              description: Whether to generate a default UI for managing this post type.
+              type: boolean
+            show_in_nav_menus:
+              description: Whether to make the post type available for selection in navigation menus.
+              type: boolean
+        icon:
+          description: The icon for the post type.
+          type: string
+        template:
+          description: The block template associated with the post type.
+          type: array
+        template_lock:
+          description: The template_lock associated with the post type, or false if none.
+          type: string
+          enum:
+          - all
+          - insert
+          - contentOnly
+          - false
+    Taxonomy:
+      title: taxonomy
+      type: object
+      properties:
+        capabilities:
+          description: All capabilities used by the taxonomy.
+          type: object
+        description:
+          description: A human-readable description of the taxonomy.
+          type: string
+        hierarchical:
+          description: Whether or not the taxonomy should have children.
+          type: boolean
+        labels:
+          description: Human-readable labels for the taxonomy for various contexts.
+          type: object
+        name:
+          description: The title for the taxonomy.
+          type: string
+        slug:
+          description: An alphanumeric identifier for the taxonomy.
+          type: string
+        show_cloud:
+          description: Whether or not the term cloud should be displayed.
+          type: boolean
+        types:
+          description: Types associated with the taxonomy.
+          type: array
+          items:
+            type: string
+        rest_base:
+          description: REST base route for the taxonomy.
+          type: string
+        rest_namespace:
+          description: REST namespace route for the taxonomy.
+          type: string
+        visibility:
+          description: The visibility settings for the taxonomy.
+          type: object
+          properties:
+            public:
+              description: Whether a taxonomy is intended for use publicly either via the admin interface or by front-end
+                users.
+              type: boolean
+            publicly_queryable:
+              description: Whether the taxonomy is publicly queryable.
+              type: boolean
+            show_ui:
+              description: Whether to generate a default UI for managing this taxonomy.
+              type: boolean
+            show_admin_column:
+              description: Whether to allow automatic creation of taxonomy columns on associated post-types table.
+              type: boolean
+            show_in_nav_menus:
+              description: Whether to make the taxonomy available for selection in navigation menus.
+              type: boolean
+            show_in_quick_edit:
+              description: Whether to show the taxonomy in the quick/bulk edit panel.
+              type: boolean
+    Category:
+      title: category
+      type: object
+      properties:
+        id:
+          description: Unique identifier for the term.
+          type: integer
+        count:
+          description: Number of published posts for the term.
+          type: integer
+        description:
+          description: HTML description of the term.
+          type: string
+        link:
+          description: URL of the term.
+          type: string
+          format: uri
+        name:
+          description: HTML title for the term.
+          type: string
+        slug:
+          description: An alphanumeric identifier for the term unique to its type.
+          type: string
+        taxonomy:
+          description: Type attribution for the term.
+          type: string
+          enum:
+          - category
+        parent:
+          description: The parent term ID.
+          type: integer
+        meta:
+          description: Meta fields.
+          type: object
+    Error:
+      title: WordPress REST error
+      type: object
+      properties:
+        code:
+          description: Machine-readable error code, e.g. rest_invalid_param, rest_post_invalid_id, rest_no_route, rest_forbidden.
+          type: string
+        message:
+          description: Human-readable error message.
+          type: string
+        data:
+          description: Error detail including the HTTP status and any offending parameters.
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object

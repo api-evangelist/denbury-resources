@@ -1,0 +1,98 @@
+generated: '2026-09-06'
+method: probed
+source: >-
+  https://www.denbury.com/wp-json/ + live responses (2026-09-06); SEC EDGAR submissions for
+  CIK 0000945764; https://corporate.exxonmobil.com/news/news-releases/2023/0713_exxonmobil-announces-acquisition-of-denbury
+description: >-
+  Lifecycle posture for the only machine-readable surface Denbury Inc. operates. There is no
+  published versioning policy, no deprecation policy, no SLA and no status page, because there is no
+  developer program to attach one to. What there IS, and what a consumer of this surface actually
+  needs to weigh, is corporate lifecycle risk: the company was acquired and deregistered, and the
+  site is maintained as a legacy property.
+versioning:
+  policy_published: false
+  scheme: path-namespace
+  current: wp/v2
+  detail: >-
+    Versioning is whatever WordPress core ships. The namespace in the path is the version; Denbury
+    neither pins it nor announces changes to it. A WordPress core upgrade can add, alter or retire
+    routes on this host with no notice to any consumer.
+  source: https://www.denbury.com/wp-json/
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    No Sunset or Deprecation response header was returned on any observed request, and no deprecation
+    policy is published. No operation in openapi/ is marked deprecated.
+  deprecated_operations: []
+sla:
+  published: false
+  detail: No service level agreement, uptime commitment or support commitment is published.
+status_page:
+  present: false
+  url: null
+  detail: >-
+    No status page exists. status.denbury.com does not resolve and no status link appears anywhere on
+    www.denbury.com. No StatusPage pointer is emitted.
+changelog:
+  present: false
+  detail: >-
+    No changelog, release notes or dated update feed is published for the site or the API. The blog
+    surface is empty — /wp/v2/posts returns X-WP-Total: 0 — and https://www.denbury.com/feed/ returns
+    HTTP 500. No ChangeLog pointer is emitted.
+support:
+  url: https://www.denbury.com/contact-us/
+  detail: General corporate contact form and info@denbury.com. There is no developer support channel.
+corporate_lifecycle:
+  status: acquired-subsidiary
+  detail: >-
+    ExxonMobil completed its acquisition of Denbury on 2023-11-02. Denbury filed a Form 15-12G on
+    2023-11-22 to deregister its securities and has filed nothing with the SEC since (last filing of
+    any kind: SC 13G/A, 2024-02-07). The corporate site remains live and is maintained — the footer
+    reads "© COPYRIGHT 2026 DENBURY INC." and the homepage carries a banner directing visitors to
+    ExxonMobil.com — but it is a legacy property inside ExxonMobil's Low Carbon Solutions business.
+  evidence:
+  - url: https://data.sec.gov/submissions/CIK0000945764.json
+    status: 200
+    note: 'DENBURY INC — form 15-12G filed 2023-11-22; no filings after 2024-02-07'
+  - url: https://corporate.exxonmobil.com/news/news-releases/2023/0713_exxonmobil-announces-acquisition-of-denbury
+    status: 200
+  - url: https://www.denbury.com/
+    status: 200
+    note: 'Live WordPress site; banner: "Denbury is now a part of ExxonMobil."'
+  consumer_risk: >-
+    Any integration against www.denbury.com carries the risk that the acquirer retires the property.
+    The content is historical corporate material, not an operating data feed.
+site_collapse:
+  observed: '2026-09-06'
+  detail: >-
+    The human website has been collapsed to a handful of legal and contact pages while the REST API
+    still serves the full corporate corpus. Every one of the 48 published pages was fetched at the
+    `link` its own API record advertises: 41 of the 48 answer HTTP 200 but land on the homepage
+    (https://www.denbury.com/), one 301s off-site to jobs.denbury.com, one lands on a spreadsheet
+    download, and only 5 resolve to themselves. The full HTML bodies of the redirected pages remain
+    intact and anonymously readable through /wp/v2/pages/{id} — page 31 "Carbon Solutions" returns
+    17,650 characters of content.rendered, page 1170 "Managing our Carbon Footprint" returns 17,233.
+  consequence: >-
+    For 41 pages of Denbury's carbon-solutions, EOR, pipeline-network and sustainability material,
+    the REST API is now the only public route to the content. That is a lifecycle signal, not a
+    feature: the site is being wound down around an API nobody switched off.
+  method: probed
+  evidence:
+  - url: https://www.denbury.com/operations/carbon-solutions/
+    status: 200
+    note: redirects to https://www.denbury.com/
+  - url: https://www.denbury.com/careers/
+    status: 200
+    note: redirects to https://www.denbury.com/
+  - url: https://www.denbury.com/careers/opportunities/
+    status: 301
+    note: redirects off-site to https://jobs.denbury.com/go/Landing-Page/9106400/ (host does not resolve)
+  - url: https://www.denbury.com/wp-json/wp/v2/pages/31?_fields=id,slug,title,content
+    status: 200
+    note: same page's full body still served by the API
+  pages_checked: 48
+  pages_resolving_to_themselves: 7
+  pages_redirected_to_homepage: 41

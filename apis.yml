@@ -1,67 +1,252 @@
 aid: denbury-resources
 name: Denbury Resources
-url: >-
-x-api-posture: no-product-api
-x-api-posture-basis: observed
-  https://raw.githubusercontent.com/api-evangelist/denbury-resources/refs/heads/main/apis.yml
+description: >-
+  Denbury Resources (now Denbury Inc.) was an independent oil and natural gas company headquartered in
+  Plano, Texas, focused on enhanced oil recovery (EOR) using carbon dioxide injection in mature oil
+  fields across the Gulf Coast and Rocky Mountain regions, and on carbon capture, transport and
+  sequestration through the largest CO2 pipeline network in the United States. ExxonMobil acquired
+  Denbury in November 2023 and it now operates as a subsidiary inside ExxonMobil's Low Carbon
+  Solutions business; Denbury filed a Form 15-12G to deregister its securities on 2023-11-22 and has
+  filed nothing with the SEC since. Denbury is an energy operator rather than a software vendor and
+  publishes no commercial or developer-facing product API, no developer portal, and no SDKs. The only
+  machine-readable interface it exposes is the WordPress core REST content API behind its corporate
+  website at www.denbury.com, which is captured here for discovery purposes and is anonymously
+  readable but read-only.
+url: https://raw.githubusercontent.com/api-evangelist/denbury-resources/refs/heads/main/apis.yml
 type: Index
+x-api-posture: no-product-api
+x-api-posture-basis: >-
+  observed 2026-09-06 — www.denbury.com serves a live WordPress core REST API (276 routes, 14
+  namespaces) but no product API, developer portal, SDK or documentation of any kind
 deliveryModel:
-  model: unknown
+  model: saas
   open_source: false
   commercial: false
-  callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  callable_host: true
+  label: Anonymously callable read-only content API on the company's own host
+  confidence: high
   source:
-  - none
-  generated: '2026-08-28'
+  - openapi
+  generated: '2026-09-06'
   method: derived
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: none
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
+  try_now: true
+  public: true
+  label: Public read-only content API, no signup
+  confidence: high
+  source:
+  - authentication
+  generated: '2026-09-06'
   method: derived
-position: Consuming
+position: Producing
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/denbury-resources.png
 tags:
-  - Acquired
-  - Carbon Capture
-  - CO2 EOR
-  - Energy
-  - Enhanced Oil Recovery
-  - ExxonMobil
-  - Oil and Gas
-  - Fortune 1000
+- Acquired
+- Carbon Capture
+- CO2 EOR
+- Energy
+- Enhanced Oil Recovery
+- ExxonMobil
+- Oil and Gas
+- Fortune 1000
+- Content
+- Carbon Sequestration
 created: '2024-12-03'
-modified: '2026-04-28'
+modified: '2026-09-06'
 specificationVersion: '0.23'
 kind: company
-description: >-
-  Denbury Resources (now Denbury Inc.) was an independent oil and natural
-  gas company focused on enhanced oil recovery (EOR) using carbon dioxide
-  injection in mature oil fields. Denbury was acquired by ExxonMobil in
-  November 2023 and operates as a subsidiary inside ExxonMobil's Low
-  Carbon Solutions business. Denbury does not publish public APIs; this
-  profile is preserved as a corporate-history index.
-apis: []
+apis:
+- aid: denbury-resources:denbury-resources-pages-api
+  name: Denbury Resources Pages API
+  description: >-
+    Public, unauthenticated read access to the Denbury Inc. corporate website page archive — 48
+    published pages covering carbon solutions, EOR operations, the CO2 pipeline network,
+    sustainability and owner relations — via the WordPress core REST API. Probed 2026-09-06: 41 of
+    those 48 pages now redirect to the homepage on the human site while their full bodies remain
+    readable here, making this API the only public route to that content.
+  humanURL: https://www.denbury.com/wp-json/wp/v2/pages
+  baseURL: https://www.denbury.com/wp-json
+  tags:
+  - Pages
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/denbury-resources-pages-api-openapi.yml
+  - type: Overlay
+    url: overlays/denbury-resources-pages-api-overlay.yaml
+  - type: Authentication
+    url: authentication/denbury-resources-authentication.yml
+  - type: ErrorCatalog
+    url: errors/denbury-resources-problem-types.yml
+  - type: Conventions
+    url: conventions/denbury-resources-conventions.yml
+  - type: DataModel
+    url: data-model/denbury-resources-data-model.yml
+  - type: Conformance
+    url: conformance/denbury-resources-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/denbury-resources-lifecycle.yml
+- aid: denbury-resources:denbury-resources-media-api
+  name: Denbury Resources Media API
+  description: >-
+    Public, unauthenticated read access to the Denbury Inc. media library — 432 items including
+    corporate presentations, ESG and corporate responsibility reports, PDFs and imagery — via the
+    WordPress core REST API.
+  humanURL: https://www.denbury.com/wp-json/wp/v2/media
+  baseURL: https://www.denbury.com/wp-json
+  tags:
+  - Media
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/denbury-resources-media-api-openapi.yml
+  - type: Overlay
+    url: overlays/denbury-resources-media-api-overlay.yaml
+  - type: Authentication
+    url: authentication/denbury-resources-authentication.yml
+  - type: ErrorCatalog
+    url: errors/denbury-resources-problem-types.yml
+  - type: Conventions
+    url: conventions/denbury-resources-conventions.yml
+  - type: DataModel
+    url: data-model/denbury-resources-data-model.yml
+  - type: Conformance
+    url: conformance/denbury-resources-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/denbury-resources-lifecycle.yml
+- aid: denbury-resources:denbury-resources-search-api
+  name: Denbury Resources Search API
+  description: >-
+    Public, unauthenticated full-text search over the Denbury Inc. website — 105 indexed objects at
+    capture — returning lightweight result objects via the WordPress core REST API.
+  humanURL: https://www.denbury.com/wp-json/wp/v2/search
+  baseURL: https://www.denbury.com/wp-json
+  tags:
+  - Search
+  - Content
+  properties:
+  - type: OpenAPI
+    url: openapi/denbury-resources-search-api-openapi.yml
+  - type: Overlay
+    url: overlays/denbury-resources-search-api-overlay.yaml
+  - type: Authentication
+    url: authentication/denbury-resources-authentication.yml
+  - type: ErrorCatalog
+    url: errors/denbury-resources-problem-types.yml
+  - type: Conventions
+    url: conventions/denbury-resources-conventions.yml
+  - type: Conformance
+    url: conformance/denbury-resources-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/denbury-resources-lifecycle.yml
+- aid: denbury-resources:denbury-resources-discovery-api
+  name: Denbury Resources Discovery API
+  description: >-
+    Public, unauthenticated access to the self-describing surface of the Denbury Inc. WordPress REST
+    API — registered content types, taxonomies and category terms.
+  humanURL: https://www.denbury.com/wp-json/
+  baseURL: https://www.denbury.com/wp-json
+  tags:
+  - Discovery
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/denbury-resources-discovery-api-openapi.yml
+  - type: Overlay
+    url: overlays/denbury-resources-discovery-api-overlay.yaml
+  - type: Authentication
+    url: authentication/denbury-resources-authentication.yml
+  - type: ErrorCatalog
+    url: errors/denbury-resources-problem-types.yml
+  - type: Conventions
+    url: conventions/denbury-resources-conventions.yml
+  - type: DataModel
+    url: data-model/denbury-resources-data-model.yml
+  - type: Conformance
+    url: conformance/denbury-resources-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/denbury-resources-lifecycle.yml
+- aid: denbury-resources:denbury-resources-oembed-api
+  name: Denbury Resources oEmbed API
+  description: >-
+    Public, unauthenticated oEmbed 1.0 endpoint for Denbury Inc. website URLs, served by WordPress
+    core. Verified live against https://www.denbury.com/ on 2026-09-06.
+  humanURL: https://www.denbury.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.denbury.com%2Foperations%2Fcarbon-solutions%2F
+  baseURL: https://www.denbury.com/wp-json
+  tags:
+  - oEmbed
+  - Embeds
+  properties:
+  - type: OpenAPI
+    url: openapi/denbury-resources-oembed-api-openapi.yml
+  - type: Overlay
+    url: overlays/denbury-resources-oembed-api-overlay.yaml
+  - type: Authentication
+    url: authentication/denbury-resources-authentication.yml
+  - type: ErrorCatalog
+    url: errors/denbury-resources-problem-types.yml
+  - type: Conventions
+    url: conventions/denbury-resources-conventions.yml
+  - type: Conformance
+    url: conformance/denbury-resources-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/denbury-resources-lifecycle.yml
 common:
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/denbury-resources
-  - type: ParentCompany
-    url: https://corporate.exxonmobil.com/locations/united-states/denbury
-  - type: ExxonMobilLowCarbon
-    url: https://corporate.exxonmobil.com/what-we-do/delivering-industrial-solutions/lowcarbon-solutions
-  - type: SECFilings
-    url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001127355
-  - type: Notes
-    url: https://en.wikipedia.org/wiki/Denbury_Resources
+- type: Website
+  url: https://www.denbury.com/
+- type: Support
+  url: https://www.denbury.com/contact-us/
+- type: TermsOfService
+  url: https://www.denbury.com/terms-and-conditions/
+- type: PrivacyPolicy
+  url: https://www.denbury.com/privacy-policy/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/denbury-resources
+- type: Twitter
+  url: https://x.com/DenburyInc
+- type: ParentCompany
+  url: https://corporate.exxonmobil.com/news/news-releases/2023/0713_exxonmobil-announces-acquisition-of-denbury
+- type: SECFilings
+  url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000945764
+- type: Notes
+  url: https://en.wikipedia.org/wiki/Denbury_Resources
+- type: Authentication
+  url: authentication/denbury-resources-authentication.yml
+- type: Conventions
+  url: conventions/denbury-resources-conventions.yml
+- type: ErrorCatalog
+  url: errors/denbury-resources-problem-types.yml
+- type: DataModel
+  url: data-model/denbury-resources-data-model.yml
+- type: Conformance
+  url: conformance/denbury-resources-conformance.yml
+- type: Lifecycle
+  url: lifecycle/denbury-resources-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/denbury-resources-rate-limits.yml
+- type: Plans
+  url: plans/denbury-resources-plans-pricing.yml
+- type: LLMsTxt
+  url: llms/denbury-resources-llms.txt
+- type: ToolCrosswalk
+  url: mcp/denbury-resources-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/denbury-resources-domain-security.yml
+- type: Examples
+  url: examples/denbury-resources-examples.yml
+- type: AgenticAccess
+  url: agentic-access/denbury-resources-agentic-access.yml
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-06'
+  status: enriched
+  artifacts_added: 29
+  pass: local-v3

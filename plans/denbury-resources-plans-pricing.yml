@@ -1,0 +1,24 @@
+generated: '2026-09-06'
+method: searched
+source: https://www.denbury.com/ (full page inventory read via /wp/v2/pages, 48 pages, 2026-09-06)
+description: >-
+  Denbury Inc. publishes no API plans, no pricing tiers, no quotas and no commercial terms of any
+  kind, because it sells no API. It is an oil, gas and carbon-management operator; the only
+  machine-readable surface it exposes is the WordPress content API behind its corporate website,
+  which is free, anonymous and unmetered by omission rather than by policy. The complete 48-page
+  site inventory was enumerated through the site's own API and contains no pricing, plans, developer
+  or API page.
+plan_count: 0
+free_tier: null
+enterprise_only: false
+contact_sales: false
+note: >-
+  Not a "contact us for pricing" gate — there is nothing to buy. Recording an honest zero rather than
+  omitting the artifact.
+evidence:
+- url: https://www.denbury.com/wp-json/wp/v2/pages?per_page=100&_fields=id,slug,link,title
+  status: 200
+  detail: 48 pages returned; none is a pricing, plans, developer, API or partner-integration page.
+- url: https://www.denbury.com/
+  status: 200
+plans: []

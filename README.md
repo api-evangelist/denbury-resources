@@ -64,35 +64,75 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Denbury Resources (now Denbury Inc.) was an independent oil and natural gas company focused on enhanced oil recovery (EOR) using carbon dioxide injection in mature oil fields. Denbury was acquired by ExxonMobil in November 2023 and operates as a subsidiary inside ExxonMobil's Low Carbon Solutions business. Denbury does not publish public APIs; this profile is preserved as a corporate-history index.
+Denbury Resources (now Denbury Inc.) was an independent oil and natural gas company headquartered in
+Plano, Texas, focused on enhanced oil recovery (EOR) using carbon dioxide injection in mature oil
+fields across the Gulf Coast and Rocky Mountain regions, and on carbon capture, transport and
+sequestration through the largest CO2 pipeline network in the United States. ExxonMobil acquired
+Denbury in November 2023; it now operates inside ExxonMobil's Low Carbon Solutions business and
+filed a Form 15-12G to deregister its securities on 2023-11-22.
 
 **URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/denbury-resources/refs/heads/main/apis.yml)
 
 ## Scope
 
 - **Type:** Index
-- **Position:** Consumer
+- **Position:** Producing
 - **Access:** 3rd-Party
 - **x-type:** company
 
 ## Tags
 
-- Acquired, Carbon Capture, CO2 EOR, Energy, Enhanced Oil Recovery, ExxonMobil, Oil and Gas
+- Acquired, Carbon Capture, CO2 EOR, Energy, Enhanced Oil Recovery, ExxonMobil, Oil and Gas, Fortune 1000, Content, Carbon Sequestration
 
 ## Timestamps
 
 - **Created:** 2024-12-03
-- **Modified:** 2026-04-28
+- **Modified:** 2026-09-06
 
 ## APIs
 
-No public APIs are published by Denbury Resources. The company was absorbed into ExxonMobil's Low Carbon Solutions business in 2023.
+Denbury publishes **no product API**: no developer portal, no API documentation, no SDKs, no CLI, no
+package-registry presence, no GitHub organization, no status page, no changelog and no pricing. The
+whole of `/.well-known/` is refused at the origin with HTTP 403.
+
+The one machine-readable interface it exposes is the **WordPress core REST API** behind its corporate
+website at `https://www.denbury.com/wp-json` — anonymous, read-only and unmetered. 276 routes across
+14 namespaces are registered on the host; twelve operations are both anonymously readable and useful,
+and they are documented in five OpenAPI 3.2.0 definitions **derived from the server's own HTTP OPTIONS
+schema documents** on 2026-09-06. Nothing in those specs is invented.
+
+| API | Surface | Size at capture |
+|---|---|---|
+| [Pages API](openapi/denbury-resources-pages-api-openapi.yml) | `/wp/v2/pages` | 48 published pages |
+| [Media API](openapi/denbury-resources-media-api-openapi.yml) | `/wp/v2/media` | 432 items — presentations, ESG reports, PDFs |
+| [Search API](openapi/denbury-resources-search-api-openapi.yml) | `/wp/v2/search` | 105 indexed objects |
+| [Discovery API](openapi/denbury-resources-discovery-api-openapi.yml) | `/wp/v2/types`, `/taxonomies`, `/categories` | self-describing registry |
+| [oEmbed API](openapi/denbury-resources-oembed-api-openapi.yml) | `/oembed/1.0/embed` | oEmbed 1.0 |
+
+### The site is collapsing around the API
+
+Probed 2026-09-06: of the 48 pages the API publishes, **41 redirect to the homepage** when fetched at
+the `link` their own API record advertises. The bodies are still served by the API — page 31 "Carbon
+Solutions" returns 17,650 characters of rendered HTML — so for 41 pages of Denbury's carbon-solutions,
+EOR, pipeline-network and sustainability material this REST API is now the only public route to the
+content. That is a wind-down signal, not a feature.
+
+### Gated on this host
+
+- `/wp/v2/users` — HTTP 403 at the origin; the `author` edge on every page and media item is unresolvable.
+- `/wp-json/wp-abilities/v1/*` — HTTP 401 `rest_forbidden`; the WordPress Abilities API namespace is registered but entirely auth-gated.
+- `context=edit` on any route — HTTP 401 `rest_forbidden_context`.
+- `/.well-known/*` — HTTP 403 (nginx HTML) on every path probed.
 
 ## Common Properties
 
-- [Parent Company (ExxonMobil)](https://corporate.exxonmobil.com/locations/united-states/denbury)
-- [ExxonMobil Low Carbon Solutions](https://corporate.exxonmobil.com/what-we-do/delivering-industrial-solutions/lowcarbon-solutions)
-- [SEC Filings](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001127355)
+- [Website](https://www.denbury.com/)
+- [Contact](https://www.denbury.com/contact-us/)
+- [Terms and Conditions](https://www.denbury.com/terms-and-conditions/)
+- [Privacy Policy](https://www.denbury.com/privacy-policy/)
+- [LinkedIn](https://www.linkedin.com/company/denbury-resources)
+- [Acquisition announcement (ExxonMobil)](https://corporate.exxonmobil.com/news/news-releases/2023/0713_exxonmobil-announces-acquisition-of-denbury)
+- [SEC Filings (CIK 0000945764)](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000945764)
 - [Notes](https://en.wikipedia.org/wiki/Denbury_Resources)
 
 ## Maintainers

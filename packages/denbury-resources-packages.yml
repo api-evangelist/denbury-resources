@@ -1,0 +1,36 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, api.github.com repository + org search, and the full 48-page
+  www.denbury.com site inventory (2026-09-06)
+description: >-
+  Denbury Inc. publishes no client libraries, SDKs or CLIs in any package registry, and operates no
+  GitHub organization. An honest zero — recorded so a later run can tell "checked, nothing there"
+  from "not checked". No SDKs pointer is emitted.
+package_count: 0
+official_packages: 0
+registries_searched:
+- registry: npm
+  query: denbury
+  endpoint: https://registry.npmjs.org/-/v1/search?text=denbury
+  status: 200
+  results: 0
+- registry: pypi
+  query: denbury
+  endpoint: https://pypi.org/pypi/denbury/json
+  status: 404
+  results: 0
+- registry: github
+  query: denbury
+  endpoint: https://api.github.com/search/repositories?q=denbury
+  status: 200
+  results: 2
+  note: >-
+    Neither result belongs to this company — one is an unrelated dental practice site
+    (marketing620/DenburyBrightSmiles), the other is this API Evangelist profile repository.
+- registry: github-org
+  query: denbury
+  endpoint: https://api.github.com/orgs/denbury
+  status: 403
+  note: Unauthenticated org lookup was rate-limited; no denbury org is linked from the corporate site either.
+packages: []

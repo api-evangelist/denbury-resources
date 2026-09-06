@@ -1,0 +1,128 @@
+generated: '2026-09-06'
+method: derived
+source: >-
+  openapi/denbury-resources-pages-api-openapi.yml, openapi/denbury-resources-media-api-openapi.yml,
+  openapi/denbury-resources-discovery-api-openapi.yml (schemas derived verbatim from the server's own
+  OPTIONS documents)
+description: >-
+  Entity graph of the Denbury Inc. WordPress REST content API. Relationships are the integer
+  id-reference fields the server's own schemas declare — parent, author, featured_media, post — plus
+  the type/taxonomy registry that describes the collections themselves. Denbury publishes no object
+  reference, so id prefixes and domains do not apply: every identifier on this surface is a bare
+  WordPress auto-increment integer.
+identifier_scheme:
+  style: integer
+  prefixed: false
+  stable: >-
+    Ids are stable while the site is, but are database auto-increment values with no prefix or
+    namespace. Resolve by slug where you need durability — every entity carries a `slug` and a `link`.
+entities:
+- name: Page
+  collection: /wp/v2/pages
+  item: /wp/v2/pages/{id}
+  count_at_capture: 48
+  key: id
+  human_key: slug
+  canonical_url_field: link
+  schema: openapi/denbury-resources-pages-api-openapi.yml#/components/schemas/Page
+  note: >-
+    Every published unit of Denbury corporate content is a Page — the blog surface (/wp/v2/posts) is
+    empty (X-WP-Total: 0), so Pages is the whole content corpus.
+- name: MediaItem
+  collection: /wp/v2/media
+  item: /wp/v2/media/{id}
+  count_at_capture: 432
+  key: id
+  human_key: slug
+  canonical_url_field: source_url
+  schema: openapi/denbury-resources-media-api-openapi.yml#/components/schemas/MediaItem
+  note: >-
+    Carries mime_type, media_type, filesize and a media_details block of generated size variants.
+    This is where the corporate presentations, ESG reports and PDFs live.
+- name: Category
+  collection: /wp/v2/categories
+  item: /wp/v2/categories/{id}
+  count_at_capture: 1
+  key: id
+  human_key: slug
+  schema: openapi/denbury-resources-discovery-api-openapi.yml#/components/schemas/Category
+  note: One term ("Uncategorized", count 0). The taxonomy exists but is unused.
+- name: ContentType
+  collection: /wp/v2/types
+  item: /wp/v2/types/{type}
+  key: slug
+  schema: openapi/denbury-resources-discovery-api-openapi.yml#/components/schemas/ContentType
+  note: Registry entity describing the collections themselves; not content.
+- name: Taxonomy
+  collection: /wp/v2/taxonomies
+  item: /wp/v2/taxonomies/{taxonomy}
+  key: slug
+  schema: openapi/denbury-resources-discovery-api-openapi.yml#/components/schemas/Taxonomy
+  note: Registry entity describing the term vocabularies; not content.
+- name: SearchResult
+  collection: /wp/v2/search
+  count_at_capture: 105
+  key: id
+  schema: openapi/denbury-resources-search-api-openapi.yml#/components/schemas/SearchResult
+  note: >-
+    A projection, not a stored entity. Its `id` + `subtype` resolve back to a Page or MediaItem via
+    that type's own collection.
+relationships:
+- from: Page
+  to: Page
+  kind: belongs_to
+  via: parent
+  detail: Hierarchical pages. parent = 0 means top level.
+- from: Page
+  to: MediaItem
+  kind: has_one
+  via: featured_media
+  detail: featured_media is a media item id; 0 means none.
+- from: Page
+  to: User
+  kind: belongs_to
+  via: author
+  detail: >-
+    author is a user id, but /wp/v2/users returns HTTP 403 on this host, so the referenced entity is
+    NOT publicly resolvable. The edge exists in the schema and is a dead end anonymously.
+  resolvable: false
+- from: MediaItem
+  to: Page
+  kind: belongs_to
+  via: post
+  detail: The page or post the attachment was uploaded to; null when unattached.
+- from: MediaItem
+  to: User
+  kind: belongs_to
+  via: author
+  resolvable: false
+  detail: Same 403 on /wp/v2/users.
+- from: Category
+  to: Category
+  kind: belongs_to
+  via: parent
+  detail: Hierarchical taxonomy terms.
+- from: Category
+  to: Taxonomy
+  kind: belongs_to
+  via: taxonomy
+  detail: The taxonomy slug the term belongs to.
+- from: ContentType
+  to: Taxonomy
+  kind: has_many
+  via: taxonomies
+  detail: Taxonomies registered against a content type.
+- from: SearchResult
+  to: Page
+  kind: belongs_to
+  via: id + subtype
+  detail: Resolve subtype=page against /wp/v2/pages/{id}.
+- from: SearchResult
+  to: MediaItem
+  kind: belongs_to
+  via: id + subtype
+  detail: Resolve subtype=attachment against /wp/v2/media/{id}.
+counts:
+  entities: 6
+  relationships: 10
+  unresolvable_edges: 2

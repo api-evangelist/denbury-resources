@@ -1,0 +1,49 @@
+generated: '2026-09-06'
+method: probed
+source: live HTTPS probes of every host this record knows
+description: >-
+  Probe of the RFC-named /.well-known/ document set on every host in this record. www.denbury.com is
+  the only host Denbury Inc. controls (denbury.com itself does not resolve — NXDOMAIN — and the only
+  OpenAPI servers[] host is www.denbury.com). The origin's nginx configuration returns a 548-byte
+  "403 Forbidden" HTML page for EVERY path under /.well-known/, including paths that would be
+  404 if the directory were simply empty, so the whole discovery namespace is refused rather than
+  absent. NO well-known document is served, and NO WellKnown or SecurityTxt pointer is emitted.
+hosts:
+- host: www.denbury.com
+  note: >-
+    Every /.well-known/ path answers HTTP 403 with an identical nginx "403 Forbidden" HTML body
+    (548 bytes). Not one document was returned.
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 403
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+    file: null
+  - path: /.well-known/api-catalog
+    status: 403
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 403
+    file: null
+  - path: /.well-known/agent.json
+    status: 403
+    file: null
+- host: denbury.com
+  note: >-
+    Apex domain does not resolve (NXDOMAIN on 2026-09-06); no probe was possible. The site is served
+    only from the www host.
+  documents: []
+summary:
+  documents_served: 0
+  hosts_probed: 2
+  pointer_emitted: false
+  pointer_reason: >-
+    No path returned a 200 carrying a real document, so no WellKnown/SecurityTxt pointer is written.
+    A recorded absence is data; a pointer would be a false claim on the provider's behalf.

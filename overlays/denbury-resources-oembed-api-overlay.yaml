@@ -1,0 +1,60 @@
+# generated: 2026-09-06
+# method: generated
+# source: openapi/denbury-resources-oembed-api-openapi.yml
+overlay: 1.0.0
+info:
+  title: Denbury Resources oEmbed API — API Evangelist enhancements
+  version: 1.0.0
+  description: Overlay 1.0.0 capturing the enhancements API Evangelist applied when deriving Denbury Resources oEmbed
+    API from Denbury Inc.'s own published WordPress HTTP OPTIONS schema documents. The base document in openapi/
+    already carries these; this overlay records them separately so the provenance of every addition is auditable
+    and so the same enhancements can be replayed against a freshly harvested capture. Nothing here changes Denbury's
+    behaviour — it annotates the derived contract.
+extends: openapi/denbury-resources-oembed-api-openapi.yml
+actions:
+- target: $.info
+  description: 'Stamp derivation provenance: what the contract was read from, and when.'
+  update:
+    x-derived-from: https://www.denbury.com/wp-json/ route index + per-route HTTP OPTIONS schema documents
+    x-derived-on: '2026-09-06'
+    x-api-evangelist-note: 'Third-party profile. Denbury Inc. publishes no developer program; this documents the
+      anonymously readable WordPress core REST content API served from www.denbury.com. Every path, parameter, schema
+      property and description here was read from the server''s own published HTTP OPTIONS documents on 2026-09-06
+      — nothing is invented. Anonymous access is read-only (the routes answer `Allow: GET`); the write methods on
+      the same routes require WordPress application-password authentication and are not part of the public surface.'
+    contact:
+      name: Denbury Inc.
+      url: https://www.denbury.com/contact-us/
+      email: info@denbury.com
+- target: $
+  description: Name the single production server. Denbury documents no base URL anywhere; this host was read off
+    the live wp-json index.
+  update:
+    servers:
+    - url: https://www.denbury.com/wp-json
+      description: Denbury Inc. WordPress REST API
+- target: $
+  description: Declare the tag set. WordPress route indexes carry no tags; these group the operations by the resource
+    they act on.
+  update:
+    tags:
+    - name: oEmbed
+      description: oEmbed 1.0 discovery and embed documents for Denbury Inc. URLs.
+- target: $.paths.*.*
+  description: 'Add operationId, summary and tags to every operation. The server publishes methods and argument
+    schemas but no operation identity, so these 1 identifiers (getOembed) are API Evangelist additions: GET /oembed/1.0/embed
+    -> getOembed.'
+  update:
+    x-overlay-note: operationId/summary/tags added per operation; see the base document for the exact values.
+- target: $.paths.*.*.responses
+  description: Add the 400/401/404 error responses. The OPTIONS documents describe success schemas only; these statuses
+    and the shared Error schema were captured by making the failing request live on 2026-09-06 (rest_invalid_param,
+    rest_forbidden_context, rest_post_invalid_id, rest_no_route).
+  update:
+    x-overlay-note: 'Error responses reference #/components/schemas/Error, which is an API Evangelist addition derived
+      from observed error bodies.'
+- target: $.components.schemas
+  description: Add the shared Error schema. WordPress publishes no error schema; this one mirrors the {code,message,data{status,params,details}}
+    envelope observed live.
+  update:
+    x-overlay-note: Error schema is derived from observed responses, not from a published contract.

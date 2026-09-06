@@ -1,0 +1,134 @@
+generated: '2026-09-06'
+method: probed
+source: live responses from https://www.denbury.com/wp-json captured 2026-09-06
+description: >-
+  Request/response examples for every operation in openapi/. Denbury Inc. publishes no documentation
+  and therefore no examples; each response body below was captured by actually issuing the request
+  anonymously on 2026-09-06 and is reproduced as returned (large collection responses are shown as a
+  single representative element with `_fields` applied, and the field list used is stated). Nothing
+  here is synthesised.
+base_url: https://www.denbury.com/wp-json
+authentication: none
+examples:
+- operation: listPages
+  request: GET /wp/v2/pages?per_page=2&page=2
+  status: 200
+  response_headers:
+    X-WP-Total: '48'
+    X-WP-TotalPages: '24'
+    Link: <https://www.denbury.com/wp-json/wp/v2/pages?per_page=2&page=1>; rel="prev", <https://www.denbury.com/wp-json/wp/v2/pages?per_page=2&page=3>; rel="next"
+    Allow: GET
+  note: >-
+    Body is an array of full page objects and is large; see getPage for the element shape. The
+    headers are the load-bearing part of this example — they are how a client sizes and walks the
+    collection.
+- operation: getPage
+  request: GET /wp/v2/pages/31?_fields=id,date,slug,status,type,link,title,parent,author,featured_media,menu_order,template
+  status: 200
+  response: |
+    {"id": 31, "date": "2022-09-01T21:47:52", "slug": "carbon-solutions", "status": "publish",
+     "type": "page", "link": "https://www.denbury.com/operations/carbon-solutions/",
+     "title": {"rendered": "Carbon Solutions"}, "author": 1, "featured_media": 0,
+     "parent": 14, "menu_order": 11, "template": ""}
+  note: >-
+    `_fields` was applied to keep the example readable; without it the object also carries
+    content.rendered, excerpt.rendered, guid, class_list, meta and _links. parent=14 is the
+    Operations page; author=1 is not resolvable (/wp/v2/users returns 403).
+- operation: listMedia
+  request: GET /wp/v2/media?media_type=application&per_page=1&_fields=id,date,slug,type,link,title,author,media_type,mime_type,source_url,filename,filesize,post
+  status: 200
+  response: |
+    [{"id": 3507, "date": "2023-08-23T13:18:35", "slug": "denbury-contractor-code-of-conduct-r4",
+      "type": "attachment", "link": "https://www.denbury.com/denbury-contractor-code-of-conduct-r4/",
+      "title": {"rendered": "Denbury Contractor Code of Conduct-R4"}, "author": 1,
+      "media_type": "file", "mime_type": "application/pdf", "post": null,
+      "source_url": "https://www.denbury.com/wp-content/uploads/2023/08/Denbury-Contractor-Code-of-Conduct-R4.pdf",
+      "filename": "Denbury-Contractor-Code-of-Conduct-R4.pdf", "filesize": 6724473}]
+  note: >-
+    `media_type=application` is the filter that isolates documents from imagery. Download via
+    source_url, not link (link is the WordPress attachment page).
+- operation: getMediaItem
+  request: GET /wp/v2/media/3507
+  status: 200
+  note: Returns the same object as above without _fields, plus media_details, alt_text, caption and _links.
+- operation: search
+  request: GET /wp/v2/search?search=carbon%20sequestration&per_page=2
+  status: 200
+  response: |
+    [{"id": 634, "title": "Carbon Sequestration",
+      "url": "https://www.denbury.com/operations/carbon-solutions/carbon-sequestration/",
+      "type": "post", "subtype": "page"},
+     {"id": 31, "title": "Carbon Solutions",
+      "url": "https://www.denbury.com/operations/carbon-solutions/",
+      "type": "post", "subtype": "page"}]
+  note: >-
+    _links elided for readability; each result carries a self link with targetHints.allow ["GET"].
+    Resolve subtype=page against /wp/v2/pages/{id} and subtype=attachment against /wp/v2/media/{id}.
+- operation: listTaxonomies
+  request: GET /wp/v2/taxonomies
+  status: 200
+  response: |
+    {"category": {"name": "Categories", "slug": "category", "description": "", "types": ["post"],
+                  "hierarchical": true, "rest_base": "categories", "rest_namespace": "wp/v2"},
+     "post_tag": {"name": "Tags", "slug": "post_tag", "description": "", "types": ["post"],
+                  "hierarchical": false, "rest_base": "tags", "rest_namespace": "wp/v2"}}
+  note: _links elided. rest_base + rest_namespace tell a client where each term collection lives.
+- operation: getTaxonomy
+  request: GET /wp/v2/taxonomies/category
+  status: 200
+  note: Returns the single `category` object shown above.
+- operation: listTypes
+  request: GET /wp/v2/types
+  status: 200
+  note: >-
+    Returns a map keyed by type slug (post, page, attachment, ...), each with name, slug, rest_base,
+    rest_namespace, hierarchical, has_archive, taxonomies and supports.
+- operation: getType
+  request: GET /wp/v2/types/page
+  status: 200
+  note: Returns the single `page` type object.
+- operation: listCategories
+  request: GET /wp/v2/categories
+  status: 200
+  response: |
+    [{"id": 1, "count": 0, "description": "", "link": "https://www.denbury.com/category/uncategorized/",
+      "name": "Uncategorized", "slug": "uncategorized", "taxonomy": "category", "parent": 0, "meta": []}]
+  note: >-
+    yoast_head / yoast_head_json and _links elided — the live response also carries a large Yoast SEO
+    block. One term exists and it is unused (count 0), because the blog surface is empty.
+- operation: getCategory
+  request: GET /wp/v2/categories/1
+  status: 200
+  note: Returns the single term shown above.
+- operation: getOembed
+  request: GET /oembed/1.0/embed?url=https%3A%2F%2Fwww.denbury.com%2Foperations%2Fcarbon-solutions%2F
+  status: 200
+  response: |
+    {"version": "1.0", "provider_name": "Denbury", "provider_url": "https://www.denbury.com",
+     "author_name": "squiresadmin", "author_url": "https://www.denbury.com/author/squiresadmin/",
+     "title": "Carbon Solutions - Denbury", "type": "rich", "width": 600, "height": 338,
+     "html": "<blockquote class=\"wp-embedded-content\" ...><a href=\"https://www.denbury.com/operations/carbon-solutions/\">Carbon Solutions</a></blockquote><iframe sandbox=\"allow-scripts\" security=\"restricted\" src=\"https://www.denbury.com/operations/carbon-solutions/embed/#?secret=...\" width=\"600\" height=\"338\" ...></iframe>"
+  note: >-
+    The html field is truncated above at the iframe attributes; the per-request `secret` value is
+    elided. A URL that is not a real permalink returns 404 (verified against /carbon-solutions/,
+    which is not the canonical path).
+error_examples:
+- request: GET /wp/v2/pages?per_page=999
+  status: 400
+  response: '{"code":"rest_invalid_param","message":"Invalid parameter(s): per_page","data":{"status":400,"params":{"per_page":"per_page must be between 1 (inclusive) and 100 (inclusive)"},"details":{"per_page":{"code":"rest_out_of_bounds","message":"per_page must be between 1 (inclusive) and 100 (inclusive)","data":null}}}}'
+- request: GET /wp/v2/pages/999999
+  status: 404
+  response: '{"code":"rest_post_invalid_id","message":"Invalid post ID.","data":{"status":404}}'
+- request: GET /wp/v2/nope
+  status: 404
+  response: '{"code":"rest_no_route","message":"No route was found matching the URL and request method.","data":{"status":404}}'
+- request: GET /wp/v2/pages?context=edit
+  status: 401
+  response: '{"code":"rest_forbidden_context","message":"Sorry, you are not allowed to edit posts in this post type.","data":{"status":401}}'
+- request: GET /wp-json/wp-abilities/v1/abilities
+  status: 401
+  response: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+counts:
+  operations_total: 12
+  operations_with_example: 12
+  error_examples: 5

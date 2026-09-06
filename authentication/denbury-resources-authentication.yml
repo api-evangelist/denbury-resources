@@ -1,0 +1,71 @@
+generated: '2026-09-06'
+method: probed
+source: >-
+  https://www.denbury.com/wp-json/ (the server's own `authentication` block) plus live anonymous and
+  context=edit requests against the routes captured in openapi/
+description: >-
+  Denbury Inc. runs no developer program, issues no API keys, and documents no authentication.
+  The WordPress core REST API behind www.denbury.com is the only machine-readable surface, and its
+  public half needs no credentials at all: every route captured in openapi/ answers anonymously and
+  advertises `Allow: GET`. The write half of the same routes exists but is refused anonymously.
+public_surface:
+  authentication_required: false
+  verified: '2026-09-06'
+  evidence: >-
+    GET https://www.denbury.com/wp-json/wp/v2/pages?per_page=1 returned HTTP 200 with
+    `Allow: GET` and X-WP-Total: 48, with no Authorization header sent.
+  scope: read-only
+schemes:
+- id: none
+  type: none
+  description: >-
+    Anonymous read. No API key, token, cookie or nonce is required for any GET operation documented
+    in openapi/.
+  applies_to: every operation in openapi/
+  method: probed
+- id: application-password
+  type: http
+  scheme: basic
+  description: >-
+    WordPress application passwords, sent as HTTP Basic credentials. This is the only mechanism the
+    server itself advertises, in the `authentication.application-passwords` block of the
+    https://www.denbury.com/wp-json/ index, which names
+    https://www.denbury.com/wp-admin/authorize-application.php as the authorization endpoint.
+    It gates the write methods and the `edit` context, neither of which is part of the public
+    surface described in openapi/. Credentials are issued only to Denbury site administrators.
+  applies_to: write methods and context=edit (not documented in openapi/)
+  method: searched
+  source: https://www.denbury.com/wp-json/
+- id: nonce
+  type: apiKey
+  in: header
+  name: X-WP-Nonce
+  description: >-
+    Cookie-authenticated browser sessions use an X-WP-Nonce header. The origin advertises it in
+    `Access-Control-Allow-Headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5,
+    Content-Type`. It is a same-site admin mechanism, not an integration credential.
+  applies_to: authenticated admin sessions only
+  method: probed
+  source: response headers on https://www.denbury.com/wp-json/wp/v2/pages
+gated_surfaces:
+- surface: context=edit on any wp/v2 route
+  status: 401
+  body: '{"code":"rest_forbidden_context","message":"Sorry, you are not allowed to edit posts in this post type.","data":{"status":401}}'
+  note: Observed live on 2026-09-06. The extra fields in the `edit` context are not publicly readable.
+- surface: /wp-json/wp-abilities/v1/abilities
+  status: 401
+  body: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+  note: >-
+    The WordPress Abilities API namespace is registered on this site but is entirely auth-gated.
+    Its tool/ability catalogue cannot be introspected anonymously, so nothing about it is recorded
+    beyond its presence in the route index.
+- surface: /wp-json/wp/v2/users
+  status: 403
+  note: Author enumeration is blocked at the origin. No user records are publicly readable.
+oauth2: false
+openid_connect: false
+mutual_tls: false
+api_keys_issued: false
+notes:
+- Denbury publishes no authentication documentation because it publishes no developer program.
+- Nothing here was inferred; each row cites either the server's own index document or a live response.

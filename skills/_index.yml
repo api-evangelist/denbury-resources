@@ -1,0 +1,40 @@
+generated: '2026-09-06'
+method: generated
+source: >-
+  openapi/ (12 operations across 5 specs derived from Denbury's own OPTIONS documents) +
+  conventions/, errors/, lifecycle/
+description: >-
+  Packaged Agent Skills for the only machine-readable surface Denbury Inc. operates. Denbury
+  publishes no skills, no AGENTS.md and no developer documentation — https://www.denbury.com/llms.txt
+  returns 301 and the whole /.well-known/ namespace returns 403 — so these are API Evangelist
+  authorings, grounded in operationIds that exist in openapi/ and in error codes and headers observed
+  live on 2026-09-06. Both skills are read-only because the whole public surface is.
+skills:
+- name: denbury-resources-harvest-corporate-content
+  file: denbury-resources-harvest-corporate-content.md
+  api: denbury-resources:denbury-resources-pages-api
+  operations:
+  - listPages
+  - getPage
+  summary: >-
+    Walk all 48 published corporate pages with correct RFC 8288 Link paging and the enforced
+    per_page=100 cap, resolve the page hierarchy, and stop at the author edge that the origin blocks.
+- name: denbury-resources-retrieve-esg-and-investor-documents
+  file: denbury-resources-retrieve-esg-and-investor-documents.md
+  api: denbury-resources:denbury-resources-media-api
+  operations:
+  - listMedia
+  - getMediaItem
+  - search
+  summary: >-
+    Filter the 432-item media library by mime_type and date to find corporate presentations and ESG
+    reports, download via source_url, and cross-check hits through the site search projection.
+counts:
+  skills: 2
+  operations_covered: 5
+  operations_total: 12
+notes:
+- Every operationId referenced here was checked against openapi/ before writing.
+- >-
+  No write skill exists and none can: the anonymous surface answers `Allow: GET` on every route, and
+  the write methods require WordPress application-password credentials Denbury does not issue.

@@ -1,0 +1,44 @@
+generated: '2026-09-06'
+method: probed
+source: live responses from https://www.denbury.com/wp-json (2026-09-06)
+description: >-
+  Denbury Inc. documents no rate limits — it publishes no developer documentation at all — and the
+  live surface returns no rate-limit signalling. Every response header on every observed request was
+  captured; none of X-RateLimit-*, RateLimit-*, Retry-After or a 429 status appeared. An agent
+  calling this surface has no runtime signal to back off on, which is itself the finding.
+limit_count: 0
+documented: false
+headers_returned: []
+headers_checked:
+- X-RateLimit-Limit
+- X-RateLimit-Remaining
+- X-RateLimit-Reset
+- RateLimit-Limit
+- RateLimit-Remaining
+- RateLimit-Reset
+- RateLimit-Policy
+- Retry-After
+exhaustion_status: unobserved
+evidence:
+- url: https://www.denbury.com/wp-json/wp/v2/pages?per_page=2&page=2
+  status: 200
+  detail: >-
+    Full header set returned was server, date, content-type, x-powered-by, x-robots-tag,
+    x-content-type-options, access-control-expose-headers, access-control-allow-headers, x-wp-total,
+    x-wp-totalpages, link, allow, vary. No rate-limit header of any kind.
+- url: https://www.denbury.com/wp-json/
+  status: 200
+  detail: The 300KB route index returned with no rate-limit headers.
+implicit_limits:
+- scope: per-request
+  parameter: per_page
+  limit: 100
+  window: n/a
+  detail: >-
+    The only enforced bound on the surface is a page-size cap. per_page above 100 returns HTTP 400
+    rest_invalid_param / rest_out_of_bounds. This is a payload bound, not a rate limit.
+  evidence: https://www.denbury.com/wp-json/wp/v2/pages?per_page=999
+note: >-
+  No probing to exhaustion was attempted. Absence of a documented limit is not permission to hammer a
+  legacy corporate site; treat it as unspecified and throttle conservatively.
+rate_limits: []

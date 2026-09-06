@@ -1,0 +1,125 @@
+generated: '2026-09-06'
+method: derived
+source: openapi/ + conventions/denbury-resources-conventions.yml + live probes (2026-09-06)
+description: >-
+  Recommended x-agentic-access classification for every operation Denbury Inc.'s public surface
+  exposes. This is an API Evangelist RECOMMENDATION, not a Denbury publication — Denbury declares no
+  agent policy of any kind. The classification is unusually simple here because the surface is
+  uniformly read-only: twelve GET operations, no credentials, no side effects, nothing to escalate.
+policy_published_by_provider: false
+provider_agent_policy_evidence:
+- url: https://www.denbury.com/robots.txt
+  status: 200
+  detail: 'Two rules only — Disallow: /wp-admin/ and Disallow: /wp-login.php. No AI/agent directives.'
+- url: https://www.denbury.com/llms.txt
+  status: 301
+  detail: No llms.txt is served.
+- url: https://www.denbury.com/.well-known/ai-plugin.json
+  status: 403
+  detail: The whole /.well-known/ namespace is refused at the origin.
+defaults:
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+  human_in_the_loop: false
+  rationale: >-
+    Every documented operation is a GET against published corporate website content. There is no
+    state to mutate, no money to move, no personal data returned (the users route is 403 and the
+    author edge is unresolvable), and no credential to scope.
+operations:
+- operationId: listPages
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+- operationId: getPage
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+- operationId: listMedia
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+- operationId: getMediaItem
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+  note: >-
+    source_url points at files up to several megabytes (the largest observed was a 6.7 MB PDF).
+    Bandwidth, not risk, is the constraint an agent should plan around.
+- operationId: search
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+- operationId: listTypes
+  action_class: read
+  consequence: none
+  scope: metadata
+  token: none
+  escalation: not-applicable
+- operationId: getType
+  action_class: read
+  consequence: none
+  scope: metadata
+  token: none
+  escalation: not-applicable
+- operationId: listTaxonomies
+  action_class: read
+  consequence: none
+  scope: metadata
+  token: none
+  escalation: not-applicable
+- operationId: getTaxonomy
+  action_class: read
+  consequence: none
+  scope: metadata
+  token: none
+  escalation: not-applicable
+- operationId: listCategories
+  action_class: read
+  consequence: none
+  scope: metadata
+  token: none
+  escalation: not-applicable
+- operationId: getCategory
+  action_class: read
+  consequence: none
+  scope: metadata
+  token: none
+  escalation: not-applicable
+- operationId: getOembed
+  action_class: read
+  consequence: none
+  scope: public-content
+  token: none
+  escalation: not-applicable
+guidance_for_agents:
+- >-
+  No rate-limit signal is emitted. Absence of a limit header is not a licence — this is a legacy
+  corporate site inside an acquirer's estate. Keep concurrency at 1-2 and pause between pages.
+- >-
+  Honour robots.txt: do not touch /wp-admin/ or /wp-login.php. Nothing under those paths appears in
+  openapi/.
+- >-
+  Do not attempt the write methods. They exist on the same routes but require WordPress
+  application-password credentials that Denbury issues only to its own site administrators;
+  attempting them is a credential-guessing attempt, not an API call.
+- >-
+  Date-stamp everything retrieved. Denbury was acquired by ExxonMobil in November 2023 and
+  deregistered its securities on 2023-11-22; this content is historical corporate material.
+counts:
+  operations: 12
+  read: 12
+  write: 0
+  requiring_escalation: 0

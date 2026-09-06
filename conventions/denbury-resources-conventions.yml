@@ -1,0 +1,126 @@
+generated: '2026-09-06'
+method: probed
+source: >-
+  live requests against https://www.denbury.com/wp-json (response headers, error bodies, OPTIONS
+  schema documents) + openapi/
+description: >-
+  Cross-cutting runtime semantics of the only machine-readable surface Denbury Inc. operates: the
+  WordPress core REST API behind www.denbury.com. Denbury publishes no conventions documentation of
+  its own — every rule below was read off the live server on 2026-09-06 or off the OPTIONS schema
+  documents the server publishes for each route.
+auth_style:
+  style: none
+  detail: Anonymous read. See authentication/denbury-resources-authentication.yml.
+base_url: https://www.denbury.com/wp-json
+media_type: application/json; charset=UTF-8
+versioning:
+  style: path-namespace
+  detail: >-
+    Routes are namespaced in the path — wp/v2, oembed/1.0, wp-abilities/v1. The namespace is the
+    version; there is no Accept-header or query versioning and no version negotiation.
+  current: wp/v2
+  source: https://www.denbury.com/wp-json/ (namespaces[])
+pagination:
+  style: page-number
+  params:
+  - name: page
+    detail: 1-based page number. Default 1.
+  - name: per_page
+    detail: Items per page. Default 10, minimum 1, maximum 100 — enforced, the server returns 400 rest_out_of_bounds above 100.
+  - name: offset
+    detail: Absolute offset, available on the pages and media collections.
+  response_headers:
+  - name: X-WP-Total
+    detail: Total matching items. Observed 48 on /wp/v2/pages, 432 on /wp/v2/media, 105 on /wp/v2/search.
+  - name: X-WP-TotalPages
+    detail: Total pages at the requested per_page.
+  - name: Link
+    detail: RFC 8288 link header carrying rel="next" and rel="prev".
+  cors_exposed: 'Access-Control-Expose-Headers: X-WP-Total, X-WP-TotalPages, Link'
+  evidence: >-
+    GET /wp/v2/pages?per_page=2&page=2 returned X-WP-Total: 48, X-WP-TotalPages: 24 and a Link header
+    with both rel="prev" and rel="next" on 2026-09-06.
+field_selection:
+  supported: true
+  params:
+  - name: _fields
+    detail: Comma-separated list of top-level fields to return. Verified live against /wp/v2/pages.
+  - name: _embed
+    detail: Inline embeddable linked resources (author, featured media, terms) into _embedded.
+  - name: context
+    detail: >-
+      view (default) | embed | edit. Anonymous callers may use view and embed; edit returns
+      401 rest_forbidden_context.
+ordering_and_filtering:
+  params:
+  - orderby
+  - order
+  - search
+  - include
+  - exclude
+  - slug
+  - after
+  - before
+  - modified_after
+  - modified_before
+  - parent
+  - status
+  note: Availability differs per route; the per-route parameter list in openapi/ is authoritative.
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  content_type: application/json
+  shape:
+    code: machine-readable string, e.g. rest_invalid_param, rest_post_invalid_id, rest_no_route, rest_forbidden_context
+    message: human-readable sentence
+    data.status: the HTTP status repeated in the body
+    data.params: map of offending parameter -> explanation (validation failures only)
+    data.details: per-parameter detail object carrying its own code/message (validation failures only)
+  detail: >-
+    Not RFC 9457. No application/problem+json is served anywhere on this surface. See
+    errors/denbury-resources-problem-types.yml for the observed catalogue.
+request_id_tracing:
+  supported: false
+  detail: >-
+    No request-id, correlation-id or trace header is returned. Response headers observed are limited
+    to server, date, content-type, x-powered-by, x-robots-tag, x-content-type-options, the two
+    access-control-* headers, x-wp-total, x-wp-totalpages, link, allow and vary.
+rate_limit_signaling:
+  supported: false
+  detail: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is returned on any observed response, and no
+    429 was seen. See rate-limits/denbury-resources-rate-limits.yml.
+caching:
+  detail: >-
+    The HTML site sets `cache-control: max-age=3600, must-revalidate` and is served through a
+    Hummingbird page cache. The REST responses observed carried no cache-control and no ETag, and
+    are marked `x-robots-tag: noindex`.
+idempotency:
+  coverage: na
+  supported: false
+  header: null
+  scope: []
+  retention: null
+  detail: >-
+    There is no public mutating surface to make idempotent. Every operation documented in openapi/
+    is a GET, and the routes answer `Allow: GET` to anonymous callers, so replay protection is not
+    applicable rather than missing. The write methods on the same routes are reachable only with
+    WordPress application-password credentials that Denbury does not issue to third parties, and
+    WordPress core implements no Idempotency-Key mechanism on them either.
+dry_run_mode:
+  supported: na
+  detail: No write surface, so nothing to rehearse.
+reversibility:
+  grade: na
+  detail: >-
+    The public surface is read-only. There is no create, update or delete operation an agent can
+    call, therefore no action to reverse and no reversal window to state. reversibility, dry_run_mode
+    and idempotency are all `na` for this provider for the same single reason.
+  write_surfaces: []
+  reversal_operations: []
+cross_links:
+  errors: errors/denbury-resources-problem-types.yml
+  lifecycle: lifecycle/denbury-resources-lifecycle.yml
+  authentication: authentication/denbury-resources-authentication.yml
+  rate_limits: rate-limits/denbury-resources-rate-limits.yml
+  conformance: conformance/denbury-resources-conformance.yml
