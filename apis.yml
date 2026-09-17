@@ -63,11 +63,11 @@ apis:
 - aid: denbury-resources:denbury-resources-pages-api
   name: Denbury Resources Pages API
   description: >-
-    Public, unauthenticated read access to the Denbury Inc. corporate website page archive — 48
-    published pages covering carbon solutions, EOR operations, the CO2 pipeline network,
-    sustainability and owner relations — via the WordPress core REST API. Probed 2026-09-06: 41 of
-    those 48 pages now redirect to the homepage on the human site while their full bodies remain
-    readable here, making this API the only public route to that content.
+    Public, unauthenticated read access to the Denbury Inc. corporate website page archive — 48 published
+    pages covering carbon solutions, EOR operations, the CO2 pipeline network, sustainability and owner
+    relations — via the WordPress core REST API. Probed 2026-09-06: 41 of those 48 pages now redirect
+    to the homepage on the human site while their full bodies remain readable here, making this API the
+    only public route to that content.
   humanURL: https://www.denbury.com/wp-json/wp/v2/pages
   baseURL: https://www.denbury.com/wp-json
   tags:
@@ -93,9 +93,9 @@ apis:
 - aid: denbury-resources:denbury-resources-media-api
   name: Denbury Resources Media API
   description: >-
-    Public, unauthenticated read access to the Denbury Inc. media library — 432 items including
-    corporate presentations, ESG and corporate responsibility reports, PDFs and imagery — via the
-    WordPress core REST API.
+    Public, unauthenticated read access to the Denbury Inc. media library — 432 items including corporate
+    presentations, ESG and corporate responsibility reports, PDFs and imagery — via the WordPress core
+    REST API.
   humanURL: https://www.denbury.com/wp-json/wp/v2/media
   baseURL: https://www.denbury.com/wp-json
   tags:
@@ -121,8 +121,8 @@ apis:
 - aid: denbury-resources:denbury-resources-search-api
   name: Denbury Resources Search API
   description: >-
-    Public, unauthenticated full-text search over the Denbury Inc. website — 105 indexed objects at
-    capture — returning lightweight result objects via the WordPress core REST API.
+    Public, unauthenticated full-text search over the Denbury Inc. website — 105 indexed objects at capture
+    — returning lightweight result objects via the WordPress core REST API.
   humanURL: https://www.denbury.com/wp-json/wp/v2/search
   baseURL: https://www.denbury.com/wp-json
   tags:
@@ -146,8 +146,8 @@ apis:
 - aid: denbury-resources:denbury-resources-discovery-api
   name: Denbury Resources Discovery API
   description: >-
-    Public, unauthenticated access to the self-describing surface of the Denbury Inc. WordPress REST
-    API — registered content types, taxonomies and category terms.
+    Public, unauthenticated access to the self-describing surface of the Denbury Inc. WordPress REST API
+    — registered content types, taxonomies and category terms.
   humanURL: https://www.denbury.com/wp-json/
   baseURL: https://www.denbury.com/wp-json
   tags:
@@ -170,21 +170,16 @@ apis:
     url: conformance/denbury-resources-conformance.yml
   - type: Lifecycle
     url: lifecycle/denbury-resources-lifecycle.yml
-- aid: denbury-resources:denbury-resources-oembed-api
-  name: Denbury Resources oEmbed API
-  description: >-
-    Public, unauthenticated oEmbed 1.0 endpoint for Denbury Inc. website URLs, served by WordPress
-    core. Verified live against https://www.denbury.com/ on 2026-09-06.
-  humanURL: https://www.denbury.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.denbury.com%2Foperations%2Fcarbon-solutions%2F
+- aid: denbury-resources:denbury-resources-o-embed-api
+  name: Denbury Resources o Embed API
+  description: oEmbed 1.0 discovery and embed documents for Denbury Inc. URLs.
+  humanURL: https://www.denbury.com/wp-json/wp/v2/pages
   baseURL: https://www.denbury.com/wp-json
   tags:
-  - oEmbed
-  - Embeds
+  - o Embed
   properties:
   - type: OpenAPI
-    url: openapi/denbury-resources-oembed-api-openapi.yml
-  - type: Overlay
-    url: overlays/denbury-resources-oembed-api-overlay.yaml
+    url: openapi/denbury-resources-o-embed-api-openapi.yml
   - type: Authentication
     url: authentication/denbury-resources-authentication.yml
   - type: ErrorCatalog
@@ -196,6 +191,8 @@ apis:
   - type: Lifecycle
     url: lifecycle/denbury-resources-lifecycle.yml
 common:
+- type: Overlay
+  url: overlays/denbury-resources-oembed-api-overlay.yaml
 - type: Website
   url: https://www.denbury.com/
 - type: Support
