@@ -176,6 +176,8 @@ apis:
   humanURL: https://www.denbury.com/wp-json/wp/v2/pages
   baseURL: https://www.denbury.com/wp-json
   tags:
+  - oEmbed
+  tags_raw:
   - o Embed
   properties:
   - type: OpenAPI
