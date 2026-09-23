@@ -1,7 +1,9 @@
 ---
 title: Denbury Resources
 url: https://en.wikipedia.org/wiki/Denbury_Resources
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Denbury Resources" press release artificial intelligence'
 position: 2
 source: serpapi-google

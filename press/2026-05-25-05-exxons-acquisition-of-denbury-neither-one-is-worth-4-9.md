@@ -1,7 +1,9 @@
 ---
 title: 'Exxon''s Acquisition Of Denbury: Neither One Is Worth $4.9 ...'
 url: https://www.forbes.com/sites/bryceerickson1/2023/07/21/exxons-acquisition-of-denbury-a-tale-of-two-businesses-and-neither-one-is-worth-49-billion/
-date: '2026-05-25'
+published: '2023-07-21'
+date_basis: url-derived
+harvested: '2026-05-25'
 query: '"Denbury Resources" press release artificial intelligence'
 position: 5
 source: serpapi-google

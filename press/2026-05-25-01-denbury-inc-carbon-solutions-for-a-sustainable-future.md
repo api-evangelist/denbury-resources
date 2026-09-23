@@ -1,7 +1,9 @@
 ---
 title: 'Denbury Inc: Carbon Solutions for a Sustainable Future'
 url: https://www.denbury.com/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Denbury Resources" press release artificial intelligence'
 position: 1
 source: serpapi-google
