@@ -53,148 +53,27 @@ tags:
 - ExxonMobil
 - Oil and Gas
 - Fortune 1000
-- Content
 - Carbon Sequestration
 created: '2024-12-03'
 modified: '2026-09-06'
 specificationVersion: '0.23'
 kind: company
 apis:
-- aid: denbury-resources:denbury-resources-pages-api
-  name: Denbury Resources Pages API
-  description: >-
-    Public, unauthenticated read access to the Denbury Inc. corporate website page archive — 48 published
-    pages covering carbon solutions, EOR operations, the CO2 pipeline network, sustainability and owner
-    relations — via the WordPress core REST API. Probed 2026-09-06: 41 of those 48 pages now redirect
-    to the homepage on the human site while their full bodies remain readable here, making this API the
-    only public route to that content.
-  humanURL: https://www.denbury.com/wp-json/wp/v2/pages
+- aid: denbury-resources:denbury-com-website-wordpress-rest
+  name: Denbury Resources Website (WordPress REST)
+  description: 'The public WordPress REST API (wp-json) of the Denbury Resources website at www.denbury.com:
+    the route index of the site''s content management system, catalogued as one site surface rather than
+    as separate APIs.'
   baseURL: https://www.denbury.com/wp-json
   tags:
-  - Pages
-  - Content
+  - WordPress
+  x-surface: platform-generated
   properties:
-  - type: OpenAPI
-    url: openapi/denbury-resources-pages-api-openapi.yml
-  - type: Overlay
-    url: overlays/denbury-resources-pages-api-overlay.yaml
-  - type: Authentication
-    url: authentication/denbury-resources-authentication.yml
-  - type: ErrorCatalog
-    url: errors/denbury-resources-problem-types.yml
-  - type: Conventions
-    url: conventions/denbury-resources-conventions.yml
-  - type: DataModel
-    url: data-model/denbury-resources-data-model.yml
-  - type: Conformance
-    url: conformance/denbury-resources-conformance.yml
-  - type: Lifecycle
-    url: lifecycle/denbury-resources-lifecycle.yml
-- aid: denbury-resources:denbury-resources-media-api
-  name: Denbury Resources Media API
-  description: >-
-    Public, unauthenticated read access to the Denbury Inc. media library — 432 items including corporate
-    presentations, ESG and corporate responsibility reports, PDFs and imagery — via the WordPress core
-    REST API.
-  humanURL: https://www.denbury.com/wp-json/wp/v2/media
-  baseURL: https://www.denbury.com/wp-json
-  tags:
-  - Media
-  - Documents
-  properties:
-  - type: OpenAPI
-    url: openapi/denbury-resources-media-api-openapi.yml
-  - type: Overlay
-    url: overlays/denbury-resources-media-api-overlay.yaml
-  - type: Authentication
-    url: authentication/denbury-resources-authentication.yml
-  - type: ErrorCatalog
-    url: errors/denbury-resources-problem-types.yml
-  - type: Conventions
-    url: conventions/denbury-resources-conventions.yml
-  - type: DataModel
-    url: data-model/denbury-resources-data-model.yml
-  - type: Conformance
-    url: conformance/denbury-resources-conformance.yml
-  - type: Lifecycle
-    url: lifecycle/denbury-resources-lifecycle.yml
-- aid: denbury-resources:denbury-resources-search-api
-  name: Denbury Resources Search API
-  description: >-
-    Public, unauthenticated full-text search over the Denbury Inc. website — 105 indexed objects at capture
-    — returning lightweight result objects via the WordPress core REST API.
-  humanURL: https://www.denbury.com/wp-json/wp/v2/search
-  baseURL: https://www.denbury.com/wp-json
-  tags:
-  - Search
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/denbury-resources-search-api-openapi.yml
-  - type: Overlay
-    url: overlays/denbury-resources-search-api-overlay.yaml
-  - type: Authentication
-    url: authentication/denbury-resources-authentication.yml
-  - type: ErrorCatalog
-    url: errors/denbury-resources-problem-types.yml
-  - type: Conventions
-    url: conventions/denbury-resources-conventions.yml
-  - type: Conformance
-    url: conformance/denbury-resources-conformance.yml
-  - type: Lifecycle
-    url: lifecycle/denbury-resources-lifecycle.yml
-- aid: denbury-resources:denbury-resources-discovery-api
-  name: Denbury Resources Discovery API
-  description: >-
-    Public, unauthenticated access to the self-describing surface of the Denbury Inc. WordPress REST API
-    — registered content types, taxonomies and category terms.
-  humanURL: https://www.denbury.com/wp-json/
-  baseURL: https://www.denbury.com/wp-json
-  tags:
-  - Discovery
-  - Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/denbury-resources-discovery-api-openapi.yml
-  - type: Overlay
-    url: overlays/denbury-resources-discovery-api-overlay.yaml
-  - type: Authentication
-    url: authentication/denbury-resources-authentication.yml
-  - type: ErrorCatalog
-    url: errors/denbury-resources-problem-types.yml
-  - type: Conventions
-    url: conventions/denbury-resources-conventions.yml
-  - type: DataModel
-    url: data-model/denbury-resources-data-model.yml
-  - type: Conformance
-    url: conformance/denbury-resources-conformance.yml
-  - type: Lifecycle
-    url: lifecycle/denbury-resources-lifecycle.yml
-- aid: denbury-resources:denbury-resources-o-embed-api
-  name: Denbury Resources o Embed API
-  description: oEmbed 1.0 discovery and embed documents for Denbury Inc. URLs.
-  humanURL: https://www.denbury.com/wp-json/wp/v2/pages
-  baseURL: https://www.denbury.com/wp-json
-  tags:
-  - oEmbed
-  tags_raw:
-  - o Embed
-  properties:
-  - type: OpenAPI
-    url: openapi/denbury-resources-o-embed-api-openapi.yml
-  - type: Authentication
-    url: authentication/denbury-resources-authentication.yml
-  - type: ErrorCatalog
-    url: errors/denbury-resources-problem-types.yml
-  - type: Conventions
-    url: conventions/denbury-resources-conventions.yml
-  - type: Conformance
-    url: conformance/denbury-resources-conformance.yml
-  - type: Lifecycle
-    url: lifecycle/denbury-resources-lifecycle.yml
+  - type: Documentation
+    url: https://www.denbury.com/wp-json
+  x-platform: wordpress
+  x-platform-surface: rest
 common:
-- type: Overlay
-  url: overlays/denbury-resources-oembed-api-overlay.yaml
 - type: Website
   url: https://www.denbury.com/
 - type: Support
