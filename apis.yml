@@ -128,3 +128,9 @@ x-enrichment:
   status: enriched
   artifacts_added: 29
   pass: local-v3
+x-status: acquired
+x-acquired-by: exxon-mobil
+x-parent: exxon-mobil
+x-acquired-date: '2023-11'
+x-status-source: "https://www.denbury.com/"
+x-status-evidence: "denbury.com reads 'Denbury is now a part of ExxonMobil' (fetched 2026-10-03; roadmap#812)"
