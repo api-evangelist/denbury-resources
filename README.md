@@ -1,4 +1,4 @@
-# Denbury Resources (denbury-resources)
+# Denbury Resources
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,77 +64,76 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Denbury Resources (now Denbury Inc.) was an independent oil and natural gas company headquartered in
-Plano, Texas, focused on enhanced oil recovery (EOR) using carbon dioxide injection in mature oil
-fields across the Gulf Coast and Rocky Mountain regions, and on carbon capture, transport and
-sequestration through the largest CO2 pipeline network in the United States. ExxonMobil acquired
-Denbury in November 2023; it now operates inside ExxonMobil's Low Carbon Solutions business and
-filed a Form 15-12G to deregister its securities on 2023-11-22.
+> **Acquired or rebranded.** This company was acquired, merged or renamed. Its API, if it still exists, is offered under another name. This profile is kept as a historical record and is not maintained or rated.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/denbury-resources/refs/heads/main/apis.yml)
+Denbury Resources (now Denbury Inc.) was an independent oil and natural gas company headquartered in Plano, Texas, focused on enhanced oil recovery (EOR) using carbon dioxide injection in mature oil fields across the Gulf Coast and Rocky Mountain regions, and on carbon capture, transport and sequestration through the largest CO2 pipeline network in the United States. ExxonMobil acquired Denbury in November 2023 and it now operates as a subsidiary inside ExxonMobil's Low Carbon Solutions business; Denbury filed a Form 15-12G to deregister its securities on 2023-11-22 and has filed nothing with the SEC since. Denbury is an energy operator rather than a software vendor and publishes no commercial or developer-facing product API, no developer portal, and no SDKs. The only machine-readable interface it exposes is the WordPress core REST content API behind its corporate website at www.denbury.com, which is captured here for discovery purposes and is anonymously readable but read-only.
 
-## Scope
+**Areas:** Acquired · Carbon Capture · CO2 EOR · Energy · Enhanced Oil Recovery · ExxonMobil · Oil and Gas · Fortune 1000 · Carbon Sequestration
 
-- **Type:** Index
-- **Position:** Producing
-- **Access:** 3rd-Party
-- **x-type:** company
+## Denbury Resources on APIs.io (historical record)
 
-## Tags
+Everything profiled for Denbury Resources is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/denbury-resources/](https://apis.io/providers/denbury-resources/)** — or go straight to one of the APIs or properties below.
 
-- Acquired, Carbon Capture, CO2 EOR, Energy, Enhanced Oil Recovery, ExxonMobil, Oil and Gas, Fortune 1000, Content, Carbon Sequestration
+### APIs (1)
 
-## Timestamps
+- [Denbury Resources Website (WordPress REST)](https://apis.io/apis/denbury-resources/denbury-com-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the Denbury Resources website at www.denbury.com: the route index of the site's content management system,…
 
-- **Created:** 2024-12-03
-- **Modified:** 2026-09-06
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Denbury publishes **no product API**: no developer portal, no API documentation, no SDKs, no CLI, no
-package-registry presence, no GitHub organization, no status page, no changelog and no pricing. The
-whole of `/.well-known/` is refused at the origin with HTTP 403.
+#### MCP servers (1)
 
-The one machine-readable interface it exposes is the **WordPress core REST API** behind its corporate
-website at `https://www.denbury.com/wp-json` — anonymous, read-only and unmetered. 276 routes across
-14 namespaces are registered on the host; twelve operations are both anonymously readable and useful,
-and they are documented in five OpenAPI 3.2.0 definitions **derived from the server's own HTTP OPTIONS
-schema documents** on 2026-09-06. Nothing in those specs is invented.
+Model Context Protocol servers that expose the API to agents.
 
-| API | Surface | Size at capture |
-|---|---|---|
-| [Pages API](openapi/denbury-resources-pages-api-openapi.yml) | `/wp/v2/pages` | 48 published pages |
-| [Media API](openapi/denbury-resources-media-api-openapi.yml) | `/wp/v2/media` | 432 items — presentations, ESG reports, PDFs |
-| [Search API](openapi/denbury-resources-search-api-openapi.yml) | `/wp/v2/search` | 105 indexed objects |
-| [Discovery API](openapi/denbury-resources-discovery-api-openapi.yml) | `/wp/v2/types`, `/taxonomies`, `/categories` | self-describing registry |
-| [oEmbed API](openapi/denbury-resources-oembed-api-openapi.yml) | `/oembed/1.0/embed` | oEmbed 1.0 |
+- [denbury-resources](https://apis.io/servers/denbury-resources/denbury-resources/)
 
-### The site is collapsing around the API
+#### Agentic access (1)
 
-Probed 2026-09-06: of the 48 pages the API publishes, **41 redirect to the homepage** when fetched at
-the `link` their own API record advertises. The bodies are still served by the API — page 31 "Carbon
-Solutions" returns 17,650 characters of rendered HTML — so for 41 pages of Denbury's carbon-solutions,
-EOR, pipeline-network and sustainability material this REST API is now the only public route to the
-content. That is a wind-down signal, not a feature.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Gated on this host
+- [Denbury Resources Agentic Access](https://apis.io/agentic-access/denbury-resources/denbury-resources-agentic-access/)
 
-- `/wp/v2/users` — HTTP 403 at the origin; the `author` edge on every page and media item is unresolvable.
-- `/wp-json/wp-abilities/v1/*` — HTTP 401 `rest_forbidden`; the WordPress Abilities API namespace is registered but entirely auth-gated.
-- `context=edit` on any route — HTTP 401 `rest_forbidden_context`.
-- `/.well-known/*` — HTTP 403 (nginx HTML) on every path probed.
+#### Security (2)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Denbury Resources Authentication](https://apis.io/security/denbury-resources/denbury-resources-authentication/)
+- [Denbury Resources Domain Security](https://apis.io/security/denbury-resources/denbury-resources-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Denbury Resources Plans Pricing](https://apis.io/plans/denbury-resources/denbury-resources-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Denbury Resources Rate Limits](https://apis.io/rate-limits/denbury-resources/denbury-resources-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.denbury.com/)
-- [Contact](https://www.denbury.com/contact-us/)
-- [Terms and Conditions](https://www.denbury.com/terms-and-conditions/)
-- [Privacy Policy](https://www.denbury.com/privacy-policy/)
-- [LinkedIn](https://www.linkedin.com/company/denbury-resources)
-- [Acquisition announcement (ExxonMobil)](https://corporate.exxonmobil.com/news/news-releases/2023/0713_exxonmobil-announces-acquisition-of-denbury)
-- [SEC Filings (CIK 0000945764)](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000945764)
-- [Notes](https://en.wikipedia.org/wiki/Denbury_Resources)
+- [Support](https://www.denbury.com/contact-us/)
+- [Terms of service](https://www.denbury.com/terms-and-conditions/)
+- [Privacy policy](https://www.denbury.com/privacy-policy/)
 
-## Maintainers
+## API Evangelist rating
 
-- **Kin Lane** - kin@apievangelist.com
+**Not rated** — this company is recorded as acquired or rebranded, so no score is published. If it is in fact operating, say so on this repository and it will be re-profiled.
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Denbury Resources: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/denbury-resources/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
