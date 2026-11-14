@@ -14,6 +14,9 @@ artifacts:
   conventions/denbury-resources-conventions.yml:
     method: unknown
     evidence: no authorship recorded
+  data-license/denbury-resources-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/denbury-resources-data-model.yml:
     method: derived
     evidence: declared in the artifact
@@ -29,7 +32,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -95,6 +98,9 @@ artifacts:
   kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/denbury-resources-lifecycle.yml:
     method: unknown
     evidence: no authorship recorded
@@ -128,6 +134,9 @@ artifacts:
   press/2026-05-25-05-exxons-acquisition-of-denbury-neither-one-is-worth-4-9.md:
     method: unknown
     evidence: no authorship recorded
+  privacy/denbury-resources-privacy-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
   rate-limits/denbury-resources-rate-limits.yml:
     method: unknown
     evidence: no authorship recorded
@@ -158,6 +167,9 @@ artifacts:
   skills/denbury-resources-retrieve-esg-and-investor-documents.md:
     method: unknown
     evidence: no authorship recorded
+  terms/denbury-resources-terms-of-service.yml:
+    method: harvested
+    evidence: declared in the artifact
   well-known/denbury-resources-well-known.yml:
     method: unknown
     evidence: no authorship recorded
